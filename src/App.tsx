@@ -1,22 +1,16 @@
+import ClientErrors from "./comp/client-errors";
 import useApp from "./hooks/use-app";
 
 export default function App() {
-  const [client, clientState, reconnectClient] = useApp();
+  const [client, clientState, reconnectClient, isClosed] = useApp();
 
-  if (clientState === "failed") {
-    return (
-      <button onClick={() => reconnectClient()}>
-        Reconnect
-      </button>
-    );
-  }
-
-  if (clientState === "loading") {
-    return (
-      <div className="loading-spinner">
-        Loading...
-      </div>
-    );
+  if (clientState != "sucess") {
+    return <ClientErrors
+      client={client}
+      clientState={clientState}
+      isClosed={isClosed}
+      reconnectClient={reconnectClient}
+    />
   }
 
   return (
